@@ -5,9 +5,7 @@ dotenv.config();
 const db = async () => {
     try{
         const uri = process.env.MONGODB_URI;
-        const res = await mongoose.connect(uri,{
-            useNewUrlParser: true,
-        });
+        const res = await mongoose.connect(uri);
         if(res){
             console.log('Database connected successfully');
         }

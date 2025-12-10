@@ -1,4 +1,4 @@
-import mongoose from 'mongose';
+import mongoose from 'mongoose';
 
 
 const UserSchema = new mongoose.Schema({
@@ -21,16 +21,21 @@ const UserSchema = new mongoose.Schema({
         type : Number,
         required : true
     },
+    phoneNumber:{
+        type : String,
+        required : true
+    },
     status:{
         type : String,
         enum : ['active','inactive'],
         default : 'active'
     },
-    roleId:{
-        type : mongoose.Schema.Types.ObjectId,
-        ref : 'Role',
-        required : true
+    role : {
+        type : String,
+        enum : ['admin' , 'cheffeur'],
+        default : 'cheffeur'
     }
+    
 },{
     timestamps : true
 });
