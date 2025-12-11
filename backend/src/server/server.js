@@ -12,25 +12,25 @@ const app = express();
 
 connect();
 
-
-
 app.use(express.json());
-app.use(express.urlencoded({extende : true}));
+app.use(express.urlencoded({ extended: true }));
 
-// app.use(cors({
-//     origin : ['http://localhost:'+process.env.PORT],
-//     credential : true
-// }))
-
-app.use('/api/V1/auth',authRouter);
-
+app.use(cors({
+    origin: ['http://localhost:5173'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true
+}))
 
 
-try{
+app.use('/api/V1/auth', authRouter);
+
+
+
+try {
     app.listen(5010, () => {
-        console.log('Server is running on port '+process.env.PORT);
+        console.log('Server is running on port ' + process.env.PORT);
     });
-}catch(error){
+} catch (error) {
     console.error('Server error:', error);
 }
 export default app;
