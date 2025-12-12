@@ -15,6 +15,24 @@ export const validateLogin = Joi.object({
     email : Joi.string().email().required(),
     password : Joi.string().required().min(6)
 });
+// export const validateCamion = Joi.object({
+
+// });
+// export const validateCamion = Joi.object({
+
+// });
+// export const validateCamion = Joi.object({
+
+// });
+// export const validateCamion = Joi.object({
+
+// })
+
+
+
+
+
+
 
 export const validate = (schema) => {
     return (req, res, next) => {
