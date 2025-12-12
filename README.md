@@ -1,69 +1,66 @@
 Fleet Management System – Web Application
 
-Digital platform for managing trucks, trailers, drivers, trips, fuel consumption, and maintenance operations.
+A complete web platform for managing trucks, trailers, drivers, trips, maintenance, and fuel consumption.
 
-📌 Contexte du Projet
+Contexte du Projet
 
-Une entreprise de transport routier utilise une flotte de camions et remorques pour transporter des marchandises entre plusieurs sites (entrepôts, clients, fournisseurs, ports…).
-La gestion actuelle est manuelle (Excel, appels, papier), ce qui pose plusieurs problèmes :
+Une entreprise de transport routier possède une flotte utilisée entre différents sites (entrepôts, clients, ports…).
+La gestion actuelle est essentiellement manuelle (Excel, appels téléphoniques, documents papier), ce qui provoque :
 
-❌ Pas de visibilité en temps réel sur les trajets
+Manque de visibilité en temps réel sur les trajets et les véhicules
 
-❌ Difficulté à suivre le kilométrage
+Difficulté à suivre le kilométrage
 
-❌ Suivi non fiable du gasoil
+Suivi peu fiable de la consommation de gasoil
 
-❌ Gestion des pneus et maintenance approximative
+Mauvaise gestion des pneus et de la maintenance
 
-❌ Aucune centralisation des informations chauffeurs & trajets
+Absence de centralisation des informations des chauffeurs
 
-Ce projet vise à créer une application web complète pour digitaliser et automatiser l’ensemble du processus.
+Objectif du projet : Digitaliser la gestion de la flotte à travers une application web complète.
 
-🎯 Objectif du Projet
+Fonctionnalités Principales
+Gestion des Ressources
 
-Créer une application web moderne permettant de gérer :
+Gestion des camions
 
-✔️ Les ressources (camions, remorques, pneus, carburant)
-✔️ Les trajets et leur assignation
-✔️ La consommation (gasoil, kilométrage)
-✔️ La maintenance
-✔️ Les actions des chauffeurs
-✔️ Les permissions selon les rôles
+Gestion des remorques
 
-✨ Fonctionnalités Principales
-🚚 Gestion des Ressources
+Gestion des pneus
 
-Camions
+Gestion du carburant
 
-Remorques
+Gestion des Trajets
 
-Pneus
+Création et modification des trajets
 
-Carburant
+Assignation des trajets aux chauffeurs
 
-🗺️ Gestion des Trajets
+Suivi du statut des trajets :
 
-Création et assignation aux chauffeurs
+À faire
 
-Mise à jour du statut : À faire, En cours, Terminé
+En cours
 
-Téléchargement du trajet en PDF (ordre de mission)
+Terminé
 
-⛽ Suivi des Indicateurs
+Téléchargement des trajets en PDF (ordre de mission)
 
-Kilométrage départ / arrivée
+Suivi des Indicateurs
 
-Consommation de gasoil
+Kilométrage de départ et d’arrivée
 
-État des pneus
+Suivi de la consommation de gasoil
 
-Coûts associés
+Gestion de l’état des pneus
 
-🔧 Maintenance
+Historique des opérations et coûts associés
+
+Maintenance
 
 Rappels automatiques
 
-Configuration des périodicités :
+Configuration des périodicités de maintenance :
 
 Pneus
 
@@ -71,37 +68,31 @@ Vidange
 
 Révision
 
-👤 Rôles & Permissions
-🛠️ Admin
+Rôles et Permissions
+Administrateur
 
-Gérer camions, remorques, pneus
+Gestion des camions, remorques et pneus
 
-Créer/assigner les trajets
+Création et assignation des trajets
 
-Voir les rapports : consommation, kilométrage, maintenance
+Consultation des rapports : consommation, kilométrage, maintenance
 
-Configurer les règles de maintenance
+Configuration des règles de maintenance
 
-Accès complet
+Accès complet à l’application
 
-🚛 Chauffeur
+Chauffeur
 
-Voir ses trajets assignés
+Consultation de ses trajets assignés
 
-Télécharger un PDF mission
+Téléchargement du trajet en PDF
 
-Mettre à jour le statut du trajet
+Mise à jour du statut du trajet
 
-Saisir :
+Saisie du kilométrage, volume du gasoil et remarques
 
-kilométrage
-
-volume gasoil
-
-remarques
-
-🖥️ Partie Back-End
-🛠️ Technologies
+Partie Back-End
+Technologies
 
 Node.js
 
@@ -113,38 +104,37 @@ Mongoose
 
 JWT Authentication
 
-🔧 Fonctionnalités
+Fonctionnalités Back-End
 
 Architecture MVC
 
-Services & contrôleurs séparés
+Services et contrôleurs séparés
 
 Middleware de gestion des erreurs
 
-Vérification d’authentification avec JWT / Basic Auth
+Middleware d’authentification (JWT ou Basic Auth)
 
-Autorisation par rôle (Admin / Chauffeur)
+Système d’autorisation basé sur les rôles
 
 Routes protégées
 
-Génération de PDF (selon besoin)
+Génération de PDF (si nécessaire)
 
-🧪 Tests Unitaires
+Tests Unitaires
 
-Obligatoires sur :
+Tests obligatoires pour :
 
-Services
+Les services
 
-Contrôleurs
+Les contrôleurs
+Avec Jest, Mocha ou Chai.
 
-Avec Jest, Mocha ou Chai
-
-🎨 Partie Front-End (React.js)
-🛠️ Technologies
+Partie Front-End
+Technologies
 
 React.js
 
-React Router (Nested Routes)
+React Router (avec Nested Routes)
 
 Redux Toolkit ou Context API
 
@@ -152,19 +142,19 @@ Axios
 
 Hooks (useState, useEffect)
 
-🔧 Fonctionnalités
+Fonctionnalités Front-End
 
-Pages protégées selon rôle
+Interface Admin et Chauffeur
 
-Gestion d’état global
+Formulaires de gestion des ressources
 
-Dashboards Admin / Chauffeur
+Protection des routes selon le rôle
 
-Formulaires de gestion : camions, remorques, pneus, trajets
+Dashboard pour visualiser trajets, véhicules et maintenance
 
-Page maintenance + rapports
+Gestion du state global
 
-🐳 Déploiement Docker
+Déploiement Docker
 
 Le projet inclut :
 
@@ -172,11 +162,11 @@ Un Dockerfile pour le backend
 
 Un Dockerfile pour le frontend
 
-Création d’un réseau Docker pour permettre la communication entre les conteneurs
+Un réseau Docker pour connecter les deux
 
-Potentiel Docker Compose pour simplification
+Possibilité d’ajouter Docker Compose pour l’orchestration
 
-📂 Structure du Projet (exemple)
+Structure du Projet (exemple)
 project/
 │
 ├── backend/
@@ -201,24 +191,24 @@ project/
 │   ├── Dockerfile
 │   └── package.json
 
-🚀 Lancement du Projet
-🔹 Back-end
+Lancer le Projet
+Back-end
 cd backend
 npm install
 npm run dev
 
-🔹 Front-end
+Front-end
 cd frontend
 npm install
 npm run dev
 
-📜 Licence
+Licence
 
-Projet académique — YouCode / UM6P.
-Usage libre pour l’apprentissage.
+Projet académique – YouCode / UM6P
+Utilisation libre pour l’apprentissage.
 
-👤 Auteur
+Auteur
 
 Abdo Taouil
 Full Stack Developer – YouCode / UM6P
-GitHub: Taouil-abdo
+GitHub : Taouil-abdo
