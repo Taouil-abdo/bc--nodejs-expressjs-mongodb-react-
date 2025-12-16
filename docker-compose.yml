@@ -1,0 +1,63 @@
+# Simple Docker Compose for Fleet Management System
+version: '3.8'
+
+services:
+  # MongoDB Database
+  mongodb:
+    image: mongo:latest
+    container_name: fleet_mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: fleetManagement
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - fleet_network
+
+  # Backend API
+  backend:
+    build: ./backend
+    container_name: fleet_backend
+    restart: always
+    ports:
+      - "5010:5010"
+    environment:
+      - NODE_ENV=development
+      - PORT=5010
+      - MONGODB_URI=mongodb://mongodb:27017/fleetManagement
+      - JWT_SECRET=your_jwt_secret_key_here
+    depends_on:
+      - mongodb
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    networks:
+      - fleet_network
+
+  # Frontend React App
+  frontend:
+    build: ./frontend
+    container_name: fleet_frontend
+    restart: always
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:5010/api
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    networks:
+      - fleet_network
+
+# Docker volumes
+volumes:
+  mongodb_data:
+
+# Docker network
+networks:
+  fleet_network:
+    driver: bridge
