@@ -1,6 +1,5 @@
 import Trailer from '../models/trailer.js';
 
-// Simple trailer controller - easy to understand
 export const getAllTrailers = async (req, res) => {
     try {
         const trailers = await Trailer.find();

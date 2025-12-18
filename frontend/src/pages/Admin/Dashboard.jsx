@@ -30,12 +30,15 @@ const AdminDashboard = () => {
             // Fetch trips data
             const tripsResponse = await api.get('/trips');
             const trips = tripsResponse.data;
-            
+
+            const driversResponse = await api.get('/admin/users');
+            console.log('the driver => ' + driversResponse);
+            const drivers = driversResponse.data;
             // Calculate stats
             setStats({
                 totalTrucks: trucks.length,
                 activeTrucks: trucks.filter(t => t.status === 'available' || t.status === 'in_use').length,
-                totalDrivers: 25, // Mock data
+                totalDrivers: drivers.filter(t=>t.role === 'driver').length, 
                 activeTrips: trips.filter(t => t.status === 'in_progress').length,
                 completedTrips: trips.filter(t => t.status === 'completed').length,
                 maintenanceAlerts: trucks.filter(t => t.status === 'maintenance').length
@@ -94,6 +97,9 @@ const AdminDashboard = () => {
                     <h1 style={{ fontSize: '32px', fontWeight: 'bold', color: '#1f2937', marginBottom: '8px' }}>
                         Admin Dashboard 📊
                     </h1>
+                    <h2 style={{ fontSize: '20px', fontWeight: 'bold', color: '#1f2937', marginBottom: '8px' }}>
+                       Welcome Mr<span>{user.fullname}</span>
+                    </h2>
                     <p style={{ color: '#6b7280', fontSize: '16px' }}>
                         Monitor and manage your fleet operations from here.
                     </p>

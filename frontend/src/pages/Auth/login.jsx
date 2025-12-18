@@ -25,12 +25,14 @@ const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(loginUser(data));
+        dispatch(loginUser({ ...data }));
     };
 
     const handleInputData = (e) => {
         setData({ ...data, [e.target.name]: e.target.value });
+        console.log(data);
     };
+    
 
     return (
         <div style={{

@@ -17,7 +17,6 @@ const DashboardLayout = ({ children, userRole = 'driver' }) => {
     const driverMenuItems = [
         { name: 'Dashboard', path: '/driver/dashboard', icon: '📊' },
         { name: 'My Trips', path: '/driver/trips', icon: '🚛' },
-        { name: 'Profile', path: '/driver/profile', icon: '👤' }
     ];
 
     const adminMenuItems = [

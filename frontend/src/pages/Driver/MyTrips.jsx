@@ -26,6 +26,23 @@ const MyTrips = () => {
 
     const updateTripStatus = async (tripId, status) => {
         try {
+            // Check if driver already has an active trip
+            if (status === 'in_progress') {
+                const hasActiveTrip = trips.some(t => 
+                    t.status === 'in_progress' && t._id !== tripId
+                );
+                
+                if (hasActiveTrip) {
+                    Swal.fire({
+                        title: 'Cannot Start Trip!',
+                        text: 'You already have an active trip in progress. Please complete your current trip before starting a new one.',
+                        icon: 'warning',
+                        confirmButtonColor: '#f59e0b'
+                    });
+                    return;
+                }
+            }
+
             await api.patch(`/driver/${tripId}/status`, { status });
             fetchMyTrips();
             Swal.fire({
@@ -38,7 +55,7 @@ const MyTrips = () => {
         } catch (error) {
             Swal.fire({
                 title: 'Error!',
-                text: 'Failed to update trip status. Please try again.',
+                text: error.response?.data?.message || 'Failed to update trip status. Please try again.',
                 icon: 'error',
                 confirmButtonColor: '#ef4444'
             });

@@ -1,22 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from '../../store/authSlice';
+import Swal from 'sweetalert2';
 
 const Register = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { isLoading, error, user, token } = useSelector((state) => state.auth);
-
-    useEffect(() => {
-        if (token && user) {
-            if (user.role === 'admin') {
-                navigate('/admin/dashboard');
-            } else if (user.role === 'driver') {
-                navigate('/driver/dashboard');
-            }
-        }
-    }, [token, user, navigate]);
+    const { isLoading, error } = useSelector((state) => state.auth);
 
     const [data, setData] = useState({
         fullname: '',
@@ -28,7 +19,19 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        dispatch(registerUser(data));
+        const result = await dispatch(registerUser(data));
+        
+        if (result.type === 'auth/register/fulfilled') {
+            Swal.fire({
+                title: 'Success!',
+                text: 'Account created successfully! Please login.',
+                icon: 'success',
+                confirmButtonColor: '#3b82f6',
+                timer: 2000
+            }).then(() => {
+                navigate('/login');
+            });
+        }
     };
 
     const handleChange = (e) => {

@@ -8,6 +8,7 @@ import TripRoute from '../routes/tripRoutes.js';
 import TireRoute from '../routes/tireRoutes.js';
 import MaintenanceRoute from '../routes/maintenanceRoutes.js';
 import ReportsRoute from '../routes/reportsRoutes.js';
+import { errorHandler } from '../middlewares/errorHandler.js';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import connect from '../config/db.js'
@@ -38,7 +39,8 @@ app.use('/api/V1/tires', TireRoute);
 app.use('/api/V1/maintenance', MaintenanceRoute);
 app.use('/api/V1/reports', ReportsRoute);
 
-
+// Error handler middleware (must be last)
+app.use(errorHandler);
 
 try {
     app.listen(5010, () => {

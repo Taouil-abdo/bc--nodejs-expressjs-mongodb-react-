@@ -12,7 +12,7 @@ const router = express.Router();
 
   // Get assigned trips
   router.get( "/my-trips", authenticateToken, authorizeRole(["driver"]),getAssignedTrips);
-  // Update trip status (pending → in_progress → completed)
+  
   router.patch( "/:id/status", authenticateToken, authorizeRole(["driver"]), validate(updateStatusSchema),
     updateTripStatus
   );
@@ -20,7 +20,6 @@ const router = express.Router();
   router.patch( "/:id/data", authenticateToken, authorizeRole(["driver"]), validate(updateTripDataSchema),
     updateTripData
   );
-  // Download ordre de mission (PDF)
   router.get("/:id/pdf",authenticateToken,authorizeRole(["driver", "admin"]),downloadTripPDF);
 
 export default router;

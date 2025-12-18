@@ -151,7 +151,7 @@ const TripDetails = () => {
                     </div>
                 </div>
 
-                {trip.status === 'in_progress' && (
+                {trip.status === 'pending' && ( 
                     <div style={{ backgroundColor: 'white', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', padding: '24px' }}>
                         <h2 style={{ fontSize: '20px', fontWeight: 'bold', color: '#333', marginBottom: '20px' }}>
                             Update Trip Data
