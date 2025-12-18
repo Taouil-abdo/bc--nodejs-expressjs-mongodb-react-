@@ -39,7 +39,7 @@ app.use('/api/V1/tires', TireRoute);
 app.use('/api/V1/maintenance', MaintenanceRoute);
 app.use('/api/V1/reports', ReportsRoute);
 
-// Error handler middleware (must be last)
+
 app.use(errorHandler);
 
 try {

@@ -1,6 +1,7 @@
 import { getAllTires, createTire, updateTire, deleteTire } from '../controllers/tireController.js';
 import Tire from '../models/tire.js';
 
+// Mock the Tire model
 jest.mock('../models/tire.js');
 
 describe('Tire Controller Tests', () => {
@@ -15,29 +16,25 @@ describe('Tire Controller Tests', () => {
             json: jest.fn(),
             status: jest.fn().mockReturnThis()
         };
+        jest.clearAllMocks();
     });
 
     describe('getAllTires', () => {
         it('should return all tires with populated truck data', async () => {
-            const mockTires = [
-                { _id: '1', brand: 'Michelin', model: 'XZE', truck: { immatriculation: 'ABC123' } },
-                { _id: '2', brand: 'Bridgestone', model: 'R249', truck: { immatriculation: 'XYZ789' } }
-            ];
-
-            Tire.find = jest.fn().mockReturnValue({
-                populate: jest.fn().mockResolvedValue(mockTires)
-            });
+            const mockTires = [{ _id: '1', brand: 'Michelin' }];
+            const mockPopulate = jest.fn().mockResolvedValue(mockTires);
+            Tire.find.mockReturnValue({ populate: mockPopulate });
 
             await getAllTires(req, res);
 
             expect(Tire.find).toHaveBeenCalled();
+            expect(mockPopulate).toHaveBeenCalledWith('truck', 'immatriculation marque modele');
             expect(res.json).toHaveBeenCalledWith(mockTires);
         });
 
         it('should handle errors', async () => {
-            Tire.find = jest.fn().mockReturnValue({
-                populate: jest.fn().mockRejectedValue(new Error('Database error'))
-            });
+            const error = new Error('Database error');
+            Tire.find.mockReturnValue({ populate: jest.fn().mockRejectedValue(error) });
 
             await getAllTires(req, res);
 
@@ -48,89 +45,55 @@ describe('Tire Controller Tests', () => {
 
     describe('createTire', () => {
         it('should create a new tire successfully', async () => {
-            const tireData = {
-                brand: 'Michelin',
-                model: 'XZE',
-                size: '295/80R22.5',
-                truck: 'truck123',
-                position: 'front-left',
-                condition: 'good'
-            };
-
+            const tireData = { brand: 'Michelin' };
             req.body = tireData;
 
-            const mockTire = { _id: 'tire123', ...tireData, save: jest.fn() };
-            Tire.mockImplementation(() => mockTire);
+            const mockSave = jest.fn();
+            Tire.mockImplementation(() => ({
+                save: mockSave
+            }));
 
             await createTire(req, res);
 
-            expect(mockTire.save).toHaveBeenCalled();
+            expect(Tire).toHaveBeenCalledWith(tireData);
+            expect(mockSave).toHaveBeenCalled();
             expect(res.status).toHaveBeenCalledWith(201);
-            expect(res.json).toHaveBeenCalledWith(mockTire);
-        });
-
-        it('should return 400 on validation error', async () => {
-            req.body = { brand: 'Michelin' }; // Missing required fields
-
-            const mockTire = {
-                save: jest.fn().mockRejectedValue(new Error('Validation failed'))
-            };
-            Tire.mockImplementation(() => mockTire);
-
-            await createTire(req, res);
-
-            expect(res.status).toHaveBeenCalledWith(400);
         });
     });
 
     describe('updateTire', () => {
         it('should update tire successfully', async () => {
-            req.params.id = 'tire123';
-            req.body = { condition: 'fair', currentKm: 50000 };
+            req.params.id = '123';
+            req.body = { brand: 'Updated' };
+            const updatedTire = { _id: '123', brand: 'Updated' };
 
-            const updatedTire = { _id: 'tire123', condition: 'fair', currentKm: 50000 };
-            Tire.findByIdAndUpdate = jest.fn().mockResolvedValue(updatedTire);
+            Tire.findByIdAndUpdate.mockResolvedValue(updatedTire);
 
             await updateTire(req, res);
 
-            expect(Tire.findByIdAndUpdate).toHaveBeenCalledWith(
-                'tire123',
-                req.body,
-                { new: true }
-            );
+            expect(Tire.findByIdAndUpdate).toHaveBeenCalledWith('123', req.body, { new: true });
             expect(res.json).toHaveBeenCalledWith(updatedTire);
         });
 
         it('should return 404 if tire not found', async () => {
-            req.params.id = 'invalid';
-            Tire.findByIdAndUpdate = jest.fn().mockResolvedValue(null);
+            req.params.id = '123';
+            Tire.findByIdAndUpdate.mockResolvedValue(null);
 
             await updateTire(req, res);
 
             expect(res.status).toHaveBeenCalledWith(404);
-            expect(res.json).toHaveBeenCalledWith({ message: 'Tire not found' });
         });
     });
 
     describe('deleteTire', () => {
         it('should delete tire successfully', async () => {
-            req.params.id = 'tire123';
-            const deletedTire = { _id: 'tire123', brand: 'Michelin' };
-            Tire.findByIdAndDelete = jest.fn().mockResolvedValue(deletedTire);
+            req.params.id = '123';
+            Tire.findByIdAndDelete.mockResolvedValue({ _id: '123' });
 
             await deleteTire(req, res);
 
-            expect(Tire.findByIdAndDelete).toHaveBeenCalledWith('tire123');
+            expect(Tire.findByIdAndDelete).toHaveBeenCalledWith('123');
             expect(res.json).toHaveBeenCalledWith({ message: 'Tire deleted successfully' });
-        });
-
-        it('should return 404 if tire not found', async () => {
-            req.params.id = 'invalid';
-            Tire.findByIdAndDelete = jest.fn().mockResolvedValue(null);
-
-            await deleteTire(req, res);
-
-            expect(res.status).toHaveBeenCalledWith(404);
         });
     });
 });

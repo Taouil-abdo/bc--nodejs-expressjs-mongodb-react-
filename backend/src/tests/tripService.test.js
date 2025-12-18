@@ -23,29 +23,23 @@ describe('Trip Service Tests', () => {
                     endLocation: 'Lyon',
                     driver: driverId,
                     status: 'pending'
-                },
-                {
-                    _id: 'trip2',
-                    startLocation: 'Lyon',
-                    endLocation: 'Marseille',
-                    driver: driverId,
-                    status: 'in_progress'
                 }
             ];
 
-            // Mock the database query
-            const mockQuery = {
-                populate: jest.fn().mockReturnThis()
-            };
-            Trip.find.mockReturnValue(mockQuery);
-            mockQuery.populate.mockResolvedValue(mockTrips);
+            // Mock the database query with chaining
+            const mockPopulate2 = jest.fn().mockResolvedValue(mockTrips);
+            const mockPopulate1 = jest.fn().mockReturnValue({ populate: mockPopulate2 });
+            const mockFind = jest.fn().mockReturnValue({ populate: mockPopulate1 });
+
+            Trip.find = mockFind;
 
             // Act
             const result = await tripService.getTripsAssignedByDriverId(driverId);
 
             // Assert
             expect(Trip.find).toHaveBeenCalledWith({ driver: driverId });
-            expect(mockQuery.populate).toHaveBeenCalledWith('truck', 'immatriculation marque modele');
+            expect(mockPopulate1).toHaveBeenCalledWith('truck', 'immatriculation marque modele');
+            expect(mockPopulate2).toHaveBeenCalledWith('trailer', 'immatriculation');
             expect(result).toEqual(mockTrips);
         });
     });
@@ -68,6 +62,7 @@ describe('Trip Service Tests', () => {
             const updatedTrip = { ...mockTrip, status: newStatus };
 
             Trip.findById.mockResolvedValue(mockTrip);
+            Trip.findOne.mockResolvedValue(null); // No active trip
             Trip.findByIdAndUpdate.mockResolvedValue(updatedTrip);
 
             // Act

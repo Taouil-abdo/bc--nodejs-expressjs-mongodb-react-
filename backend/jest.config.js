@@ -1,7 +1,7 @@
 // Simple Jest configuration for beginners
 export default {
   // Use ES modules (import/export)
-  preset: 'es-jest',
+
   
   // Test environment
   testEnvironment: 'node',

@@ -26,7 +26,7 @@ export const authenticateToken = async (req, res, next) => {
   }
 };
 
-// Simple role authorization
+// role authorization
 export const authorizeRole = (roles) => {
   return (req, res, next) => {
     if (!req.user) {

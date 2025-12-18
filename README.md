@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # 🚛 Fleet Management System – Web Application
 
 [![Node.js](https://img.shields.io/badge/Node.js-18.x-green)](https://nodejs.org/)
@@ -17,11 +16,6 @@ A complete, production-ready web platform for managing trucks, trailers, drivers
 - 🐳 **Dockerized** with Docker Compose
 - 📱 **Responsive** modern UI
 - 🚀 **Production Ready**
-=======
-Fleet Management System – Web Application
-
-A complete web platform for managing trucks, trailers, drivers, trips, maintenance, and fuel consumption.
->>>>>>> 7b79f19ed23b926dfe18b8e327a85663a55ce734
 
 Contexte du Projet
 

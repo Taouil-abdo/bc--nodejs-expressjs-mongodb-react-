@@ -34,9 +34,6 @@ export const updateTripDataSchema = Joi.object({
 
 
 
-
-
-
 export const validate = (schema) => {
     return (req, res, next) => {
         const { error } = schema.validate(req.body, { abortEarly: false });
